@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: mini-ticket-project-app
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html
+    networks:
+      - mini-ticket-network
+    environment:
+      DB_CONNECTION: mongodb
+      DB_HOST: mongo
+      DB_PORT: 27017
+      DB_DATABASE: mini_ticket
+      DB_USERNAME: ''
+      DB_PASSWORD: ''
+
+  mongo:
+    image: mongo:5.0
+    container_name: mini-ticket-project-mongo
+    ports:
+      - "27017:27017"
+    networks:
+      - mini-ticket-network
+    volumes:
+      - mongo_data:/data/db
+
+  mongo-express:
+    image: mongo-express:latest
+    container_name: mongo-express
+    environment:
+      ME_CONFIG_MONGODB_SERVER: mongo
+      ME_CONFIG_MONGODB_PORT: 27017
+    ports:
+      - "8082:8081"
+    networks:
+      - mini-ticket-network
+
+networks:
+  mini-ticket-network:
+    driver: bridge
+
+volumes:
+  mongo_data:
