@@ -44,7 +44,7 @@ class TicketController extends Controller
     /**
      * Update an existing ticket.
      */
-    public function update(UpdateTicketRequest $request, string $id)
+    public function update(TicketRequest $request, string $id)
     {
         $ticket = $this->ticketService->updateTicket($id, $request->validated());
         return ApiResponseClass::success(new TicketResource($ticket), 'Ticket created successfully.');
