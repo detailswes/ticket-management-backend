@@ -2,19 +2,30 @@
 
 namespace App\Http\Controllers;
 
+use App\Classes\ApiResponseClass;
 use App\Http\Requests\TicketRequest;
 use App\Http\Requests\UpdateTicketRequest;
 use App\Http\Resources\TicketResource;
-use App\Models\Ticket;
+use App\Services\TicketService;
 
 class TicketController extends Controller
 {
+    protected $ticketService;
+
+    /**
+     * Create a new class instance.
+     */
+    public function __construct(TicketService $ticketService)
+    {
+        $this->ticketService = $ticketService;
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $tickets =Ticket::all();
+        $tickets = $this->ticketService->getAllTickets();
         return response()->json([
             'status' => 'success',
             'data' => TicketResource::collection($tickets),
@@ -22,87 +33,29 @@ class TicketController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Store a new ticket.
      */
-    public function create()
-    {
-        //
-    }
-
-
     public function store(TicketRequest $request)
     {
-        try {
-            
-            $ticket = Ticket::create($request->validated()); 
-            
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Ticket created successfully.',
-                'data' => new TicketResource($ticket), 
-            ], 200);
-    
-        } catch (\Exception $e) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Something went wrong while creating the ticket.',
-                'error' => $e->getMessage(), 
-            ], 500);  
-        }
-    }
-    
-
-    /**  
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        $ticket = Ticket::find($id);
-        if (!$ticket) {
-            return response()->json(['error' => 'Ticket not found'], 404);
-        }
-        return new TicketResource($ticket);
+        $ticket = $this->ticketService->createTicket($request->validated());
+        return ApiResponseClass::success(new TicketResource($ticket), 'Ticket created successfully.');
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
+     * Update an existing ticket.
      */
     public function update(UpdateTicketRequest $request, string $id)
     {
-        $ticket = Ticket::find($id);
-
-        if (!$ticket) {
-            return response()->json(['error' => 'Ticket not found'], 404);
-        }
-
-        $ticket->update($request->validated());
-
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Ticket updated successfully.',
-            'data' => new TicketResource($ticket),
-        ], 200);
+        $ticket = $this->ticketService->updateTicket($id, $request->validated());
+        return ApiResponseClass::success(new TicketResource($ticket), 'Ticket created successfully.');
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove a ticket.
      */
     public function destroy(string $id)
     {
-        $ticket = Ticket::find($id);
-
-        if (!$ticket) {
-            return response()->json(['error' => 'Ticket not found'], 404);
-        }
-        $ticket->delete();
+        $this->ticketService->deleteTicket($id);
         return response()->json([
             'status' => 'success',
             'message' => 'Ticket deleted successfully.',

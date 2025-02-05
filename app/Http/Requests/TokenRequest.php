@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateTicketRequest extends FormRequest
+class TokenRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,12 +22,11 @@ class UpdateTicketRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "title"=> "required|max:255",
-            "description" => "required",
-            "status"=> "sometimes"
+            'name' => 'required|string|max:255|in:webethics',
         ];
     }
 
+    
     public function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)
     {
         throw new \Illuminate\Validation\ValidationException(
