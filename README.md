@@ -93,7 +93,3 @@ php artisan db:seed
 - For further support, refer to the official documentation for [Laravel](https://laravel.com/docs) and [Docker](https://docs.docker.com/).
 
 ---
-
-## Contributing
-
-Contributions are welcome! Feel free to submit a pull request or open an issue for any enhancements or bug fixes.
