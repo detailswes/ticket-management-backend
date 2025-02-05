@@ -12,7 +12,7 @@ class TicketRepository implements TicketRepositoryInterface
      */
     public function all()
     {
-        return Ticket::all();
+        return Ticket::orderBy('created_at', 'desc')->get();
     }
 
     /**
