@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 use MongoDB\Laravel\Eloquent\Model;
 use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
 use MongoDB\Laravel\Eloquent\SoftDeletes as EloquentSoftDeletes;
@@ -13,7 +14,7 @@ use MongoDB\Laravel\Eloquent\SoftDeletes as EloquentSoftDeletes;
 class User extends Model
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable , EloquentSoftDeletes;
+    use HasApiTokens , HasFactory, Notifiable , EloquentSoftDeletes;
     protected $connection = 'mongodb'; 
     /**
      * The attributes that are mass assignable.

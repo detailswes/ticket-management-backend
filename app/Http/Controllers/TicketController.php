@@ -6,8 +6,6 @@ use App\Http\Requests\TicketRequest;
 use App\Http\Requests\UpdateTicketRequest;
 use App\Http\Resources\TicketResource;
 use App\Models\Ticket;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class TicketController extends Controller
 {
@@ -31,18 +29,28 @@ class TicketController extends Controller
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+
     public function store(TicketRequest $request)
     {
-        $ticket = Ticket::create($request->validated()); 
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Ticket created successfully.',
-            'data' => new TicketResource($ticket), 
-        ], 201);
+        try {
+            
+            $ticket = Ticket::create($request->validated()); 
+            
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Ticket created successfully.',
+                'data' => new TicketResource($ticket), 
+            ], 200);
+    
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Something went wrong while creating the ticket.',
+                'error' => $e->getMessage(), 
+            ], 500);  
+        }
     }
+    
 
     /**  
      * Display the specified resource.
