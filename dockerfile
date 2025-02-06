@@ -31,6 +31,10 @@ COPY composer.json composer.lock ./
 # Install Composer dependencies before copying the full app
 RUN composer install --no-dev --optimize-autoloader --no-scripts --no-progress --no-interaction
 
+# Install Node.js dependencies (npm install)
+COPY package.json package-lock.json ./
+RUN npm install
+
 # Copy application files
 COPY . .
 
