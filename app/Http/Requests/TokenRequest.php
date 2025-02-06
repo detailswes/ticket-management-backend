@@ -26,6 +26,15 @@ class TokenRequest extends FormRequest
         ];
     }
 
+    public function messages(): array
+    {
+        return [
+            'name.required' => 'The name field is required.',
+            'name.string' => 'The name must be a valid string.',
+            'name.max' => 'The name cannot exceed 255 characters.',
+            'name.in' => 'Please fill the authorized name',
+        ];
+    }
     
     public function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)
     {
@@ -39,3 +48,4 @@ class TokenRequest extends FormRequest
         );
     }
 }
+ 
