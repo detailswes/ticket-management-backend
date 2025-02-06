@@ -41,6 +41,20 @@ services:
     networks:
       - mini-ticket-network
 
+  vite:
+    image: node:18-alpine
+    container_name: mini-ticket-project-vite
+    volumes:
+      - .:/var/www/html
+    ports:
+      - "5173:5173"
+    command: ["npm", "run", "dev"]
+    networks:
+      - mini-ticket-network
+    environment:
+      - VITE_PORT=5173
+      - VITE_HOST=0.0.0.0
+
 networks:
   mini-ticket-network:
     driver: bridge
