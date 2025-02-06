@@ -33,7 +33,7 @@ RUN composer install --no-dev --optimize-autoloader --no-scripts --no-progress -
 
 # Install Node.js dependencies (npm install)
 COPY package.json package-lock.json ./
-RUN npm install && npm run build
+RUN npm install
 
 # Copy application files
 COPY . .
@@ -50,4 +50,4 @@ COPY nginx/mini-ticket-project.conf /etc/nginx/sites-available/mini-ticket-proje
 RUN ln -s /etc/nginx/sites-available/mini-ticket-project.conf /etc/nginx/sites-enabled/
 
 # Start services
-CMD service nginx start && php-fpm
+CMD service nginx start && php-fpm && npm run build
