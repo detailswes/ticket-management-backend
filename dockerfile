@@ -33,7 +33,7 @@ RUN composer install --no-dev --optimize-autoloader --no-scripts --no-progress -
 
 # Install Node.js dependencies (npm install)
 COPY package.json package-lock.json ./
-RUN npm install
+RUN npm install && npm run build
 
 # Copy application files
 COPY . .
