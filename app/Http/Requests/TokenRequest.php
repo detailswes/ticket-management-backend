@@ -22,7 +22,7 @@ class TokenRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255|in:webethics',
+            'name' => 'required|string|max:255',
         ];
     }
 
@@ -32,7 +32,6 @@ class TokenRequest extends FormRequest
             'name.required' => 'The name field is required.',
             'name.string' => 'The name must be a valid string.',
             'name.max' => 'The name cannot exceed 255 characters.',
-            'name.in' => 'Please fill the authorized name',
         ];
     }
     
