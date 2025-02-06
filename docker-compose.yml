@@ -48,7 +48,7 @@ services:
       - .:/var/www/html
     ports:
       - "5173:5173"
-    command: ["npm", "run", "dev"]
+    command: ["npm", "run", "dev","build"]
     networks:
       - mini-ticket-network
     environment:
